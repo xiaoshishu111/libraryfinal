@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <!-- Custom Theme files -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        } </script>
+    <!-- //Custom Theme files -->
+    <link href="../css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+    <link href="../css/newstyle.css" type="text/css" rel="stylesheet" media="all">
+    <!-- js -->
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap-3.1.1.min.js"></script>
+    <!-- //js -->
+    <!-- cart -->
+    <script src="../js/simpleCart.min.js"></script>
+    <!-- cart -->
+</head>
+<body>
+<!--header-->
+<div class="header">
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1 class="navbar-brand"><a href="index.do">IMOOC</a></h1>
+            </div>
+            <!--navbar-header-->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/web/default/userindex" class="active">首页</a></li>
+                    <!--多级分类区域-->
+
+                    <li class="dropdown" th:each="cat1 : ${booktype.children}">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" th:text="${cat1.booktype}"><b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu multi-column columns-4">
+                            <div class="row">
+
+                                <div class="col-sm-3" th:each="cat2 : ${cat1.children}">
+                                    <h4 th:text="${cat2.booktype}"></h4>
+                                    <ul class="multi-column-dropdown">
+                                        <li class="dropdown" th:each="cat3 : ${cat2.children}">
+                                            <a th:text="${cat3.booktype}"
+                                               th:href="'/web/default/list?booktypeid='+${cat3.booktypeid}+'&page=1'"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <div class="header-info">
+            <div class="header-right search-box">
+                <a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                <div class="search">
+                    <form class="navbar-form">
+                        <input type="text" class="form-control">
+                        <button type="submit" class="btn btn-default" aria-label="Left Align">
+                            搜
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="header-right login">
+                <a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+                <div id="loginBox">
+                    <!--登录区域-->
+                    <form id="loginForm" th:if="(${session.reader}==null) and (${a}==1)" action="/web/default/verify" method="post">
+                        <fieldset id="body">
+                            <fieldset>
+                                <label for="email">Account</label>
+                                <input type="text" name="readeraccount" id="account"
+                                       onblur="verifyUserAccount()"><span></span>
+                            </fieldset>
+                            <fieldset>
+                                <label for="password">Password</label>
+                                <input type="password" name="readerpassword" id="password"
+                                       onblur="verifyUserPassword()"><span></span>
+                            </fieldset>
+                            <div id="message" th:text="用户名或者密码错误"></div>
+                            <input type="submit" id="login" value="登录" onclick="login()">
+                            <label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住</i></label>
+                        </fieldset>
+                        <p>新用户 ? <a class="sign" href="/web/default/register">注册</a><span><a href="#">忘记密码?</a></span></p>
+                    </form>
+
+                    <form id="loginForm" th:if="${session.reader}==null" action="/web/default/verify" method="post">
+                        <fieldset id="body">
+                            <fieldset>
+                                <label for="email">Account</label>
+                                <input type="text" name="readeraccount" id="account"
+                                       onblur="verifyUserAccount()"><span></span>
+                            </fieldset>
+                            <fieldset>
+                                <label for="password">Password</label>
+                                <input type="password" name="readerpassword" id="password"
+                                       onblur="verifyUserPassword()"><span></span>
+                            </fieldset>
+                            <div id="message" ></div>
+                            <input type="submit" id="login" value="登录" onclick="login()">
+                            <label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住</i></label>
+                        </fieldset>
+                        <p>新用户 ? <a class="sign" href="/web/default/register">注册</a><span><a href="#">忘记密码?</a></span></p>
+                    </form>
+
+                    <form id="loginForm" th:if="${session.reader}!=null" action="/web/default/verify" method="post" style="width: 100px">
+                        <h6 th:text="'你好'+${session.reader.readeraccount}"></h6>
+                        <div><a href="/web/default/logout"> 退出 </a></div>
+                    </form>
+                </div>
+            </div>
+            <div class="header-right cart">
+                <a href="#"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+                <div class="cart-box">
+                    <h4><a href="#">
+                        <span class="simpleCart_total"> $0.00 </span> (<span id="simpleCart_quantity"
+                                                                             class="simpleCart_quantity"> 0 </span>)
+                    </a></h4>
+                    <p><a href="#" class="simpleCart_empty">空</a></p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--//header-->
+<!--gallery-->
+<div class="gallery">
+    <div class="container">
+        <!--页面跳转区域-->
+        <div class="col-md-12 gallery-grid glry-two text-right">
+            <a href="#" style="color:#666666;" onclick="change(currentPage=1)"><span
+                    class="glyphicon glyphicon-backward"></span></a>
+            <a href="#" style="color:#666666;" onClick="change(--currentPage)"><span
+                    class="glyphicon glyphicon-chevron-left"></span></a>
+            <span>第<span id="currentPage"></span>/<span id="totalPage"></span>页,共<span id="totalCount"></span>条</span>
+            <a href="#" style="color:#666666;" onClick="change(++currentPage)"><span
+                    class="glyphicon glyphicon-chevron-right"></span></a>
+            <a href="#" style="color:#666666;" onClick="change(currentPage=totalPage)"><span
+                    class="glyphicon glyphicon-forward"></span></a>
+        </div>
+        <!--用来赋值粘贴的-->
+        <div style="display: none" id="html1">
+            <div class="col-md-3 gallery-grid">
+                <a id="picturehref">
+                    <!--书的图片-->
+                    <img id="bookicon" class="img-responsive"
+                         style="height: 250px;"/>
+                    <div class="gallery-info">
+                        <p><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> view</p>
+                        <a class="shop" id="wordhref">SHOP NOW</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+                <div class="galy-info">
+                    <!--书名-->
+                    <p id="bookname"></p>
+                    <div class="galry">
+                        <div class="prices">
+                            <!--书的价格-->
+                            <h5 class="item_price" id="bookprice"></h5>
+                        </div>
+                        <!--书的作者-->
+                        <div class="detail_xing" id="bookauthor">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--页面主题区域，用来填充内容-->
+        <div class="gallery-grids" id="content">
+        </div>
+
+    </div>
+</div>
+<!--//gallery-->
+
+<!--//subscribe-->
+<!--footer-->
+<div class="footer">
+    <div class="container">
+        <div class="footer-grids">
+            <div class="col-md-2 footer-grid">
+                <h4>company</h4>
+                <ul>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Work Here</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Happenings</a></li>
+                    <li><a href="#">Dealer Locator</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>service</h4>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Warranty</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="admin/login.html" target="_blank">Admin Login</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h4>order & returns</h4>
+                <ul>
+                    <li><a href="#">Order Status</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Digital Gift Card</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>legal</h4>
+                <ul>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="#">Social Responsibility</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--//footer-->
+<div class="footer-bottom">
+    <div class="container">
+        <p>Copyright © 2017 imooc.com All Rights Reserved | 京ICP备 13046642号-2</p>
+    </div>
+</div>
+<script>
+
+
+    var currentPage = null;//当前页面
+    var totalPage = null;//总页面数
+    var bookManageView = null;//页面数据
+    var booktypeid = GetQueryString("booktypeid");//当前页的类型id
+
+    // 启动时加载页面
+    $(function () {
+        currentPage = 1;
+        var html1 = $("#html1").html();
+        console.log(html1);
+        draw();
+    })
+
+    //页面跳转
+    function change() {
+        if (currentPage < 1) {
+            currentPage = 1;
+        } else if (currentPage > totalPage) {
+            currentPage = totalPage;
+        }
+        // alert(currentPage)
+        // $("#content").empty();
+        draw();
+    }
+
+    //渲染页面
+    function draw() {
+        searchMessages();
+        $.ajax({
+            "url": "/web/default/getBooks",
+            "type": "get",
+            "data": bookManageView,
+            "success": function (json) {
+                var books = json["beans"];
+                var str="";
+                for (i in books) {
+                    $("#bookname").html(books[i].bookname)
+                    var location = "http://localhost:9000/web/" + books[i].bookicon;
+                    $("#bookicon").attr("src", location);
+                    $("#bookauthor").html(books[i].bookauthor);
+                    $("#bookprice").html(books[i].bookprice);
+                    //给图片和"shop"添加连接
+                    var load="/web/default/detail?bookid="+books[i].bookid;
+                    $("#picturehref").attr("href",load);
+                    $("#wordhref").attr("href",load);
+                    var html1 = $("#html1").html();
+                    str=str+html1;
+                    $("#totalPage").html(json.totalPage);
+                    $("#totalCount").html(json.totalCount);
+                    $("#currentPage").html(json.currentPage);
+                    $("#currentCount").html(json.currentCount);
+                }
+                $("#content").html(str);
+                currentPage = json["currentPage"];
+                totalPage = json["totalPage"];
+            }
+        })
+    }
+
+    //整理所有查询数据
+    function searchMessages() {
+
+        bookManageView = {
+            "booktypeid": booktypeid,
+            "currentPage": currentPage
+        }
+    }
+
+    // 用来获取？后面的参数
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+        if (r != null) return decodeURI(r[2]);
+        return null;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bayir 后台管理系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"><!--bootstrap.min.css-->
+    <!--添加分类的-->
+    <!--    <link rel="stylesheet" type="text/css" href="../css/theme.css">-->
+    <link rel="stylesheet" type="text/css" href="../css/admin-forms.css">
+    <!--    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->
+    <!--    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>-->
+
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <!--添加分类的-->
+    <!--    <script src="../js/jquery-ui.min.js"></script>-->
+    <!--    <script src="../js/utility.js"></script>-->
+    <!--    <script src="../js/main.js"></script>-->
+    <!--    <script src="../js/pages.js"></script>-->
+</head>
+<body>
+<div class="warp">
+    <!-- 页眉 -->
+    <div class="header" onselectstart="return false" style="position: fixed;z-index: 8888">
+            <span class="logo">
+                <a class="logo-go goback" href="index.html">后台管理系统</a>
+                <a class="logo-go goblog" href="">返回主页</a>
+            </span>
+        <span class="logout">
+                <a id="user" class="user">Admin</a>
+                <div id="user-set" class="userSet">
+                    <ul>
+                        <li><a>个人信息</a></li>
+                        <li><a>帐号修改</a></li>
+                    </ul>
+                </div>
+                <a href="">退出</a>
+            </span>
+    </div>
+    <!-- 主体 -->
+    <div class="content">
+        <!-- 左侧边栏 -->
+        <div class="sidebar" style="position: fixed;">
+            <ul>
+                <li></li>
+                <li><a href="/web/default/index">信息总览</a></li>
+                <li><a href="/web/book/bookManage">书本管理</a></li>
+                <li><a href="pages.html">读者管理</a></li>
+                <li><a href="/web/booktype/bookType">分类管理</a></li>
+                <li><a href="setting.html">系统设置</a></li>
+            </ul>
+        </div>
+        <!-- 右侧主要内容区 -->
+        <div class="panel panel-default"
+             style="width: 700px;margin-left: 200px;height: 700px;margin-top: 30px;z-index: -666">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="book">分类管理</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="tray tray-center">
+                    <div class="content-header">
+                        <!--                        <h2> 分类管理</h2>-->
+                        <p class="lead"></p>
+                    </div>
+                    <div class="admin-form theme-primary mw1000 center-block" style="padding-bottom: 175px;">
+                        <div class="panel  heading-border" style="content: none;clear-after: none">
+                            <div class="panel-menu" style="content: none">
+                                <div class="row">
+                                    <div class="hidden-xs hidden-sm col-md-3">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default light">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-default light">
+                                                <i class="fa fa-plus"
+                                                   onclick="javascript:window.location.href='catalog_add.html';"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body pn">
+                                <table id="message-table" class="table admin-form theme-warning tc-checkbox-1">
+
+                                    <div style="float: right"><a href="/web/booktype/addBookType">添加分类</a></div>
+
+                                    <thead>
+                                    <tr class="">
+                                        <th class="text-center hidden-xs">Select</th>
+                                        <th class="hidden-xs">名称</th>
+                                        <th class="hidden-xs">描述</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="cat">
+
+                                    <!--一级分类-->
+                                    <div th:each="cat1 : ${booktype.children}">
+                                        <tr class="message-unread">
+                                            <td class="hidden-xs">
+                                                <label class="option block mn">
+                                                    <input type="checkbox" name="mobileos" value="FR">
+                                                    <span class="checkbox mn"></span>
+                                                </label>
+                                            </td>
+                                            <td th:text="${cat1.booktype}"></td>
+                                            <td th:text="${cat1.booktypeinf}"></td>
+                                            <td>
+                                                <a th:href="@{'/booktype/delete?booktypeid='+${cat1.booktypeid}}">删除</a>
+                                            </td>
+                                        </tr>
+
+                                        <!--二级分类-->
+                                        <div th:each="cat2 : ${cat1.children}">
+                                            <tr class="message-unread">
+                                                <td class="hidden-xs">
+                                                    <label class="option block mn">
+                                                        <input type="checkbox" name="mobileos" value="FR">
+                                                        <span class="checkbox mn"></span>
+                                                    </label>
+                                                </td>
+                                                <td style="padding-left: 100px;" th:text="${cat2.booktype}"></td>
+                                                <td th:text="${cat2.booktypeinf}"></td>
+                                                <td>
+                                                    <a th:href="@{'/booktype/delete?booktypeid='+${cat2.booktypeid}}">删除</a>
+                                                </td>
+                                            </tr>
+
+                                            <!--三级分类-->
+                                            <div th:each="cat3 : ${cat2.children}">
+                                                <tr class="message-unread">
+                                                    <td class="hidden-xs">
+                                                        <label class="option block mn">
+                                                            <input type="checkbox" name="mobileos" value="FR">
+                                                            <span class="checkbox mn"></span>
+                                                        </label>
+                                                    </td>
+                                                    <td style="padding-left: 200px;" th:text="${cat3.booktype}"></td>
+                                                    <td th:text="${cat3.booktypeinf}"></td>
+                                                    <td>
+                                                        <a th:href="@{'/booktype/delete?booktypeid='+${cat3.booktypeid}}">删除</a>
+                                                    </td>
+                                                </tr>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    // $(function () {
+    //     alert("hello");
+    //     draw();
+    // })
+
+    // function draw() {
+    //
+    //     $.ajax({
+    //         "url": "/web/booktype/do",
+    //         "type": "get",
+    //         "success": function (json) {
+    //             var cat1 = json.children;
+    //             var cat2 = json.children.children;
+    //             var cat3 = json.children.children.children;
+    //             for (i in cat1) {
+    //
+    //             }
+    //             $("#cat").html(str);
+    //         }
+    //     })
+    // }
+
+
+</script>
+<style>
+    /* demo page styles */
+    body {
+        min-height: 2300px;
+    }
+
+    .content-header b,
+    .admin-form .panel.heading-border:before,
+    .admin-form .panel .heading-border:before {
+        transition: all 0.7s ease;
+    }
+
+    /* responsive demo styles */
+    @media (max-width: 800px) {
+        .admin-form .panel-body {
+            padding: 18px 12px;
+        }
+    }
+</style>
+
+<style>
+    .ui-datepicker select.ui-datepicker-month,
+    .ui-datepicker select.ui-datepicker-year {
+        width: 48%;
+        margin-top: 0;
+        margin-bottom: 0;
+
+        line-height: 25px;
+        text-indent: 3px;
+
+        color: #888;
+        border-color: #DDD;
+        background-color: #FDFDFD;
+
+        -webkit-appearance: none; /*Optionally disable dropdown arrow*/
+    }
+</style>
+</body>
+</html>

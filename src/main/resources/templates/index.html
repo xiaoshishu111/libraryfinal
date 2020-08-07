@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bayir 后台管理系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="warp">
+        <div class="header" onselectstart="return false">
+            <span class="logo">
+                <a class="logo-go goback" href="#">后台管理系统</a>
+                <a class="logo-go goblog" href="">返回主页</a>
+            </span>
+            <span class="logout">
+                <a id="user" class="user">Admin</a>
+                <div id="user-set" class="userSet">
+                    <ul>
+                        <li><a>个人信息</a></li>
+                        <li><a>帐号修改</a></li>
+                    </ul>
+                </div>
+                <a href="">退出</a>
+            </span>
+        </div>
+        <div class="content">
+            <div class="sidebar">
+                <ul>
+                    <li></li>
+                    <li><a href="/web/default/index">信息总览</a></li>
+                    <li><a href="/web/book/bookManage">书本管理</a></li>
+                    <li><a href="pages.html">读者管理</a></li>
+                    <li><a href="/web/booktype/bookType">分类管理</a></li>
+                    <li><a href="setting.html">系统设置</a></li>
+                </ul>
+            </div>
+            <div class="main">
+                <div class="overview">
+                    <div class="overview-title">信息总览</div>
+                    <div class="overview-info">
+                        <ul>
+                            <li>
+                                <div>文章</div>
+                                <div>0</div>
+                            </li>
+                            <li>
+                                <div>评论</div>
+                                <div>0</div>
+                            </li>
+                            <li>
+                                <div>友链</div>
+                                <div>0</div>
+                            </li>
+                            <li>
+                                <div>昨日访问量</div>
+                                <div>0</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="overview">
+                    <div class="overview-title">状态</div>
+                    <div class="state-info">
+                        <div>登陆者：admin</div>
+                        <div>上次登录时间：2017年10月12日 登录地点：中国 北京朝阳区</div>
+                    </div>
+                </div>
+                <div class="overview">
+                    <div class="overview-title">系统信息</div>
+                    <table class="overview-table">
+                        <tr>
+                            <td>管理员个数</td>
+                            <td>1</td>
+                            <td>服务器软件</td>
+                            <td>Apach</td>
+                        </tr>
+                        <tr>
+                            <td>浏览器</td>
+                            <td>Firefox</td>
+                            <td>PHP版本</td>
+                            <td>5.6.1</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+</body>
+</html>

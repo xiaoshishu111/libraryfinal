@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xss.libraryfinal.mapper.ReaderMapper">
+  <resultMap id="BaseResultMap" type="com.xss.libraryfinal.domain.Reader">
+    <constructor>
+      <idArg column="readerId" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="readerName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="readerLevelId" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="readerSex" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="readerAge" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="readerIcon" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="readerAccount" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="readerPassword" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    readerId, readerName, readerLevelId, readerSex, readerAge, readerIcon,readerAccount,readerPassword
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_reader
+    where readerId = #{readerid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_reader
+    where readerId = #{readerid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xss.libraryfinal.domain.Reader">
+    insert into t_reader (readerId, readerName, readerLevelId, 
+      readerSex, readerAge, readerIcon,readerAccount,readerPassword
+      )
+    values (#{readerid,jdbcType=VARCHAR}, #{readername,jdbcType=VARCHAR}, #{readerlevelid,jdbcType=VARCHAR}, 
+      #{readersex,jdbcType=TINYINT}, #{readerage,jdbcType=VARCHAR}, #{readericon,jdbcType=VARCHAR},#{readeraccount,jdbcType=VARCHAR},
+      #{readerpassword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xss.libraryfinal.domain.Reader">
+    insert into t_reader
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="readerid != null">
+        readerId,
+      </if>
+      <if test="readername != null">
+        readerName,
+      </if>
+      <if test="readerlevelid != null">
+        readerLevelId,
+      </if>
+      <if test="readersex != null">
+        readerSex,
+      </if>
+      <if test="readerage != null">
+        readerAge,
+      </if>
+      <if test="readericon != null">
+        readerIcon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="readerid != null">
+        #{readerid,jdbcType=VARCHAR},
+      </if>
+      <if test="readername != null">
+        #{readername,jdbcType=VARCHAR},
+      </if>
+      <if test="readerlevelid != null">
+        #{readerlevelid,jdbcType=VARCHAR},
+      </if>
+      <if test="readersex != null">
+        #{readersex,jdbcType=TINYINT},
+      </if>
+      <if test="readerage != null">
+        #{readerage,jdbcType=VARCHAR},
+      </if>
+      <if test="readericon != null">
+        #{readericon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xss.libraryfinal.domain.Reader">
+    update t_reader
+    <set>
+      <if test="readername != null">
+        readerName = #{readername,jdbcType=VARCHAR},
+      </if>
+      <if test="readerlevelid != null">
+        readerLevelId = #{readerlevelid,jdbcType=VARCHAR},
+      </if>
+      <if test="readersex != null">
+        readerSex = #{readersex,jdbcType=TINYINT},
+      </if>
+      <if test="readerage != null">
+        readerAge = #{readerage,jdbcType=VARCHAR},
+      </if>
+      <if test="readericon != null">
+        readerIcon = #{readericon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where readerId = #{readerid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xss.libraryfinal.domain.Reader">
+    update t_reader
+    set readerName = #{readername,jdbcType=VARCHAR},
+      readerLevelId = #{readerlevelid,jdbcType=VARCHAR},
+      readerSex = #{readersex,jdbcType=TINYINT},
+      readerAge = #{readerage,jdbcType=VARCHAR},
+      readerIcon = #{readericon,jdbcType=VARCHAR}
+    where readerId = #{readerid,jdbcType=VARCHAR}
+  </update>
+  <!--查找读者账户是否存在-->
+  <select id="findByreaderAccount" parameterType="com.xss.libraryfinal.domain.Reader" resultType="com.xss.libraryfinal.domain.Reader">
+    select * from t_reader where readerAccount=#{readeraccount,jdbcType=VARCHAR}
+  </select>
+
+  <!--通过账号和密码查找用户-->
+  <select id="verify" resultType="com.xss.libraryfinal.domain.Reader" parameterType="com.xss.libraryfinal.domain.Reader">
+    select * from t_reader where  readerAccount=#{readeraccount,jdbcType=VARCHAR} and readerPassword=#{readerpassword,jdbcType=VARCHAR}
+  </select>
+</mapper>

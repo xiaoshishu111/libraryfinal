@@ -1,0 +1,298 @@
+*{
+    margin:0;
+    padding: 0;
+}
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+    background-color: #fff;
+}
+a{
+    text-decoration: none;
+    cursor:pointer;
+}
+li{
+    list-style: none;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.warp{
+    height: 100%;
+}
+/*---头部样式--------*/
+
+.header{
+    height: 45px;
+    width: 100%;
+    background-color: #262D3A;
+    -moz-user-select:   none;
+}
+.logo-go{
+    margin-left: 20px;
+}
+.header a{
+    color: #f7f4f4;
+    font-size: 15px;
+    height: 100%;
+    line-height: 45px;
+    -webkit-transition:all 0.3s ease;
+    -moz-transition:all 0.3s ease;
+    -o-transition:all 0.3s ease;
+    -ms-transition:all 0.3s ease;
+    transition:all 0.3s ease;
+}
+
+.header a:hover{
+    color: #cccccc;
+}
+.header .goback{
+    font-size: 20px;
+}
+.logout{
+    float: right;
+    margin-right: 20px;
+}
+.user{
+    margin-right: 20px;
+}
+#user-set{
+    width: 100px;
+    position: absolute;
+    background-color: #fff;
+    z-index: 1;
+    right: 30px;
+    display: none;
+    box-shadow: 1px 1px 2px #888888;
+}
+.userSet a{
+    color: #626262;
+    display: block;
+    text-align: center;
+}
+.userSet a:hover{
+    color: #000;
+    background-color: #eee;
+}
+
+/*---warp样式--------*/
+
+.content{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    top: 45px;
+}
+
+/*---侧边栏样式--------*/
+
+.sidebar{
+    width: 10%;
+    height: 100%;
+    background-color: #2e3851;
+    float: left;
+}
+
+.sidebar li{
+    list-style: none;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: solid 1px #262D3A;
+}
+
+.sidebar li a{
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+
+    -webkit-transition:all 0.3s ease;
+    -moz-transition:all 0.3s ease;
+    -o-transition:all 0.3s ease;
+    -ms-transition:all 0.3s ease;
+    transition:all 0.3s ease;
+}
+
+.sidebar a:hover{
+    border-radius:5px;
+    background-color: #375e92;
+    color: #fff;
+}
+
+
+/*---主体样式--------*/
+
+.main{
+    width: 90%;
+    height: 100%;
+    background-color: #fbfbfb;
+    float: left;
+    
+}
+
+/*-----总览样式-----*/
+.overview{
+    margin: 30px 10px 10px 50px;
+    color: #626262;
+}
+.overview-title{
+    font-size: 23px;
+    margin-bottom: 20px;
+    border-bottom: solid 1px #e6e6e6;
+}
+.overview-info li{
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+}
+.overview-table{
+    width: 40%;
+    text-align: left;
+}
+.overview-table td{
+    border-collapse: collapse;
+    border-bottom: solid 1px #e6e6e6;
+}
+
+/*-----文章管理样式-----*/
+.addArticle{
+    width: 100px;
+    height: 30px;
+    background-color: #3399CC;
+    text-align: center;
+    line-height: 30px;
+    border-radius:5px;
+    cursor:pointer;
+}
+.addArticle a{
+    color: #fff;
+    display: block;
+}
+.addArticle a:hover{
+    background-color: #4FACDB;
+    border-radius:5px;
+}
+.articlelist table{
+    width: 100%;
+}
+
+/*-----页面管理样式-----*/
+.addPages{
+    color: #EC6D6D;
+}
+.addPages a:hover{
+    color: #BC5656;
+}
+.pageslist table{
+    width: 100%;
+}
+
+/*-----系统设置样式-----*/
+.addset{
+    width: 45%;
+}
+.add-box{
+    width: 100%;
+    height: 80px;
+    background-color: #fff;
+    margin: 0 20px 20px 0;
+    padding: 10px 15px 0 10px;
+    box-shadow: 1px 1px 1px #888888;
+}
+.add-box h2{
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: solid 1px #e6e6e6;
+}
+.add-box input{
+    width: 100%;
+    padding: 5px 1px 5px 2px;
+}
+.add-box select{
+    width: 50%;
+}
+.add-box-save{
+    height: 30px;
+    background-color: #3399CC;
+    color: #fff;
+    width: 100px;
+    border: none;
+    border-radius:5px;
+    cursor:pointer;
+}
+.add-box-save:hover{
+    background-color: #4FACDB;
+}
+.add-box-save:active{
+    background-color: #fff;
+}
+.add-box-article{
+    width: 100%;
+    background-color: #fff;
+    margin: 0 20px 20px 0;
+    padding: 10px 15px 0 10px;
+    box-shadow: 1px 1px 1px #888888;
+}
+.add-box-article h2{
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: solid 1px #e6e6e6;
+}
+.add-box-article textarea{
+    width: 100%;
+    height: 300px;
+    margin-bottom: 15px;   
+}
+
+/*-----登录页面样式-----*/
+.login-warp{
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+}
+.login{
+    width: 450px;
+    height: 300px;
+    background-color: #fff;
+    color: #626262;
+    border-radius:5px;
+    box-shadow: 1px 1px 5px 0.5px #c0c0c0;
+    margin: 0 auto;
+    position: absolute;
+    top: 300px;
+    left: 700px;
+}
+.login-title{
+    margin-top: 20px;
+    margin-left: 40px;
+}
+.login-title h1{
+    font-weight: normal;
+}
+.login-form{
+    margin-top: 10px;
+    margin-left: 40px;
+}
+.login-form input{
+    margin-top: 15px;
+    height: 25px;
+    width: 250px;
+}
+.login-btn{
+    background-color: #3399CC;
+    border: none;
+    height: 35px;
+    width: 60px;
+    color: #fff;
+    border-radius:5px;
+    margin-top: 30px;
+    margin-left: 50px;
+}
+

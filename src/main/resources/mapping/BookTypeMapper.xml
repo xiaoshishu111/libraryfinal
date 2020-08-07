@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xss.libraryfinal.mapper.BookTypeMapper">
+
+    <!--通过id查询到分类及其所有子类分类-->
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_booktype
+        where bookTypeId = #{booktypeid,jdbcType=VARCHAR}
+    </select>
+    <!--    用来查询父类及其包含的子类分类-->
+    <resultMap id="BaseResultMap" type="com.xss.libraryfinal.domain.BookType">
+        <id column="bookTypeId" property="booktypeid"/>
+        <result column="bookType" property="booktype"/>
+        <result column="bookLocation" property="booklocation"/>
+        <result column="bookTypePId" property="booktypepid"/>
+        <result column="bookTypeInf" property="booktypeinf"/>
+        <collection property="children" column="bookTypeId" select="getChildren"/>
+    </resultMap>
+    <!--    用于查询其子类集合，并且进行递归-->
+    <select id="getChildren" resultMap="BaseResultMap">
+        select * from t_booktype where bookTypePId=#{booktypeid}
+    </select>
+
+
+    <sql id="Base_Column_List">
+    bookTypeId, bookType, bookLocation, bookTypePId, bookTypeInf
+  </sql>
+    <!--通过id查询到分类及其所有子类分类-->
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_booktype
+        where bookTypeId = #{booktypeid,jdbcType=VARCHAR}
+    </select>
+
+    <!--    插入多项数据-->
+    <insert id="banchInsert" parameterType="com.xss.libraryfinal.domain.BookType" >
+        insert into t_booktype(bookTypeId, bookType, bookLocation,bookTypePId,bookTypeInf) values
+        <foreach collection="list" separator="," item="item">
+            (#{item.booktypeid},#{item.booktype},#{item.booklocation},#{item.booktypepid},#{item.booktypeinf})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_booktype
+    where bookTypeId = #{booktypeid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.xss.libraryfinal.domain.BookType">
+    insert into t_booktype (bookTypeId, bookType, bookLocation, 
+      bookTypePId)
+    values (#{booktypeid,jdbcType=VARCHAR}, #{booktype,jdbcType=VARCHAR}, #{booklocation,jdbcType=VARCHAR}, 
+      #{booktypepid,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.xss.libraryfinal.domain.BookType">
+        insert into t_booktype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="booktypeid != null">
+                bookTypeId,
+            </if>
+            <if test="booktype != null">
+                bookType,
+            </if>
+            <if test="booklocation != null">
+                bookLocation,
+            </if>
+            <if test="booktypepid != null">
+                bookTypePId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="booktypeid != null">
+                #{booktypeid,jdbcType=VARCHAR},
+            </if>
+            <if test="booktype != null">
+                #{booktype,jdbcType=VARCHAR},
+            </if>
+            <if test="booklocation != null">
+                #{booklocation,jdbcType=VARCHAR},
+            </if>
+            <if test="booktypepid != null">
+                #{booktypepid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xss.libraryfinal.domain.BookType">
+        update t_booktype
+        <set>
+            <if test="booktype != null">
+                bookType = #{booktype,jdbcType=VARCHAR},
+            </if>
+            <if test="booklocation != null">
+                bookLocation = #{booklocation,jdbcType=VARCHAR},
+            </if>
+            <if test="booktypepid != null">
+                bookTypePId = #{booktypepid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where bookTypeId = #{booktypeid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.xss.libraryfinal.domain.BookType">
+    update t_booktype
+    set bookType = #{booktype,jdbcType=VARCHAR},
+      bookLocation = #{booklocation,jdbcType=VARCHAR},
+      bookTypePId = #{booktypepid,jdbcType=VARCHAR}
+    where bookTypeId = #{booktypeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

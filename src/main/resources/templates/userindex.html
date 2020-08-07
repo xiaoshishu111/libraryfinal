@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <!-- Custom Theme files -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        } </script>
+
+    <link href="../css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+    <link href="../css/newstyle.css" type="text/css" rel="stylesheet" media="all">
+
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+
+    <script src="../js/simpleCart.min.js"></script>
+
+
+    <style>
+        /* 标签选择器 */
+        .imgp {
+            text-align: center;
+            font-size: 25px;
+            color: cadetblue;
+            font-family: fantasy;
+        }
+
+        /* id选择器 */
+        #hr1 {
+            background-color: cadetblue;
+            height: 2px;
+            width: 75%;
+        }
+
+        /* 类选择器 */
+        /*.imgbox {*/
+        /*    border-top: 5px solid cadetblue;*/
+        /*    !* 避免因窗口变化影响图片效果 *!*/
+        /*    width: 380px;*/
+        /*    height: 350px;*/
+        /*    margin: 0 auto;*/
+        /*}*/
+
+        .img {
+            width: 400px;
+            height: 380px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .adminAccountRed {
+            color: #BC5656;
+            font-size: 80%;
+        }
+
+        .displaynone{
+            display: none;
+        }
+        .loginForm{
+            height: 150px;
+        }
+
+    </style>
+
+</head>
+<body>
+<!--header-->
+
+<div class="header">
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1 class="navbar-brand"><a href="index.do">IMOOC</a></h1>
+            </div>
+            <!--navbar-header-->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/web/default/userindex" class="active">首页</a></li>
+                    <!--多级分类区域-->
+
+                    <li class="dropdown" th:each="cat1 : ${booktype.children}">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" th:text="${cat1.booktype}"><b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu multi-column columns-4">
+                            <div class="row">
+
+                                <div class="col-sm-3" th:each="cat2 : ${cat1.children}">
+                                    <h4 th:text="${cat2.booktype}"></h4>
+                                    <ul class="multi-column-dropdown">
+                                        <li class="dropdown" th:each="cat3 : ${cat2.children}">
+                                            <a th:text="${cat3.booktype}"
+                                               th:href="'/web/default/list?booktypeid='+${cat3.booktypeid}"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+        </nav>
+        <div class="header-info">
+            <div class="header-right search-box">
+                <a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                <div class="search">
+                    <form class="navbar-form">
+                        <input type="text" class="form-control">
+                        <button type="submit" class="btn btn-default" aria-label="Left Align">
+                            搜
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!--用户登录区域-->
+            <div class="header-right login" >
+                <a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+                <div id="loginBox">
+                    <!--登录区域-->
+                    <form id="loginForm" th:if="(${session.reader}==null) and (${a}==1)" action="/web/default/verify" method="post">
+                        <fieldset id="body">
+                            <fieldset>
+                                <label for="email">Account</label>
+                                <input type="text" name="readeraccount" id="account"
+                                       onblur="verifyUserAccount()"><span></span>
+                            </fieldset>
+                            <fieldset>
+                                <label for="password">Password</label>
+                                <input type="password" name="readerpassword" id="password"
+                                       onblur="verifyUserPassword()"><span></span>
+                            </fieldset>
+                            <div id="message" th:text="用户名或者密码错误"></div>
+                            <input type="submit" id="login" value="登录" onclick="login()">
+                            <label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住</i></label>
+                        </fieldset>
+                        <p>新用户 ? <a class="sign" href="/web/default/register">注册</a><span><a href="#">忘记密码?</a></span></p>
+                    </form>
+
+                    <form id="loginForm" th:if="${session.reader}==null" action="/web/default/verify" method="post">
+                        <fieldset id="body">
+                            <fieldset>
+                                <label for="email">Account</label>
+                                <input type="text" name="readeraccount" id="account"
+                                       onblur="verifyUserAccount()"><span></span>
+                            </fieldset>
+                            <fieldset>
+                                <label for="password">Password</label>
+                                <input type="password" name="readerpassword" id="password"
+                                       onblur="verifyUserPassword()"><span></span>
+                            </fieldset>
+                            <div id="message" ></div>
+                            <input type="submit" id="login" value="登录" onclick="login()">
+                            <label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住</i></label>
+                        </fieldset>
+                        <p>新用户 ? <a class="sign" href="/web/default/register">注册</a><span><a href="#">忘记密码?</a></span></p>
+                    </form>
+
+                    <form id="loginForm" th:if="${session.reader}!=null" action="/web/default/verify" method="post" style="width: 100px">
+                        <h6 th:text="'你好'+${session.reader.readeraccount}"></h6>
+                        <div><a href="/web/default/logout"> 退出 </a></div>
+                    </form>
+
+
+                </div>
+            </div>
+
+            <div class="header-right cart">
+                <a href="#"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+                <!--购物栏-->
+                <div class="cart-box">
+                    <img src="/web/images/1537290653487.png" alt="img1" style="width: 50px;height: 50px;"/>
+                    <h4><a href="#">
+                        <span class="simpleCart_total"> jj
+                        </span> (<span id="simpleCart_quantity" class="simpleCart_quantity"> 0 </span>)
+                    </a></h4>
+                    <h4><a href="#">
+                        <span class="simpleCart_total"> jj
+                        </span> (<span id="simpleCart_quantity" class="simpleCart_quantity"> 0 </span>)
+                    </a></h4>
+                    <h4><a href="#">
+                        <span class="simpleCart_total"> jj
+                        </span> (<span id="simpleCart_quantity" class="simpleCart_quantity"> 0 </span>)
+                    </a></h4>
+                    <p><a href="#" class="simpleCart_empty">空</a></p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--//header-->
+
+<!--banner-->
+<div class="banner">
+    <div class="container">
+        <div class="imgbox">
+            <div style="display: none" class="h-slide">
+                <h2 class="hdng" style="font-size: 60px">本周推荐 <span id="span1"></span></h2>
+                <p id="p1" style="width: 500px"></p>
+                <div style="margin-bottom: 10px;position: absolute;"><a href="detail.html?id=100">SHOP NOW</a></div>
+            </div>
+            <div style="display: none" class="h-slide ">
+                <h2 class="hdng" style="font-size: 60px">本周推荐 <span id="span2"></span></h2>
+                <p id="p2" style="width: 500px"></p>
+                <div style="margin-bottom: 10px"><a href="detail.html?id=100">SHOP NOW</a></div>
+            </div>
+            <div style="display: none" class="h-slide">
+                <h2 class="hdng" style="font-size: 60px">本周推荐 <span id="span3"></span></h2>
+                <p id="p3" style="width: 500px"></p>
+                <div style="margin-bottom: 10px"><a href="detail.html?id=100">SHOP NOW</a></div>
+            </div>
+        </div>
+        <!--        <p>特别的日子，特别的你</p>-->
+        <!--        <a href="detail.html?id=100">SHOP NOW</a>-->
+        <div class="banner-text" style="margin-left: 200px">
+            <!--            <p class="imgp">测试轮播图</p>-->
+            <!--            <hr id="hr1"/>-->
+            <!-- 建立一个div控件作为图片框 -->
+            <div class="imgbox" style="margin-left: 200px">
+
+                <div style="display: none;" class="img-slide img">
+                    <img style="width: 300px;height: 400px;margin-left: 120px" id="img1" alt="img1"/>
+                </div>
+
+                <div style="display: none;" class="img-slide img">
+                    <img style="width: 300px;height: 400px;margin-left: 120px" id="img2" alt="img2"/>
+                </div>
+
+                <div style="display: none;" class="img-slide img">
+                    <img style="width: 300px;height: 400px;margin-left: 120px" id="img3" alt="img3"/>
+                </div>
+                <!--                <img class="img-slide img" src="/web/images/1537290653487.png" alt="img4"/>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--//banner-->
+
+<!--gallery-->
+<div class="gallery">
+    <div class="container">
+        <div class="gallery-grids">
+
+            <!--主题区域-->
+            <div class="col-md-3 gallery-grid" th:each="book : ${rankbooks}">
+                <!--跳转到详情页-->
+                <a th:href="'/web/default/detail?bookid='+${book.bookid}"><img style="width: 200px;height: 300px"
+                                                                               th:src="'http://localhost:9000/web/'+${book.bookicon}"
+                                                                               class="img-responsive" alt=""/>
+                    <div class="gallery-info">
+                        <p><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> view</p>
+                        <a class="shop" th:href="'/web/default/detail?bookid='+${book.bookid}">SHOP NOW</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+                <div class="galy-info">
+                    <p th:text="${book.bookname}"></p>
+                    <div class="galry">
+                        <div class="prices">
+                            <h5 class="item_price" th:text="${book.bookprice}"></h5>
+                        </div>
+                        <div class="detail_xing" th:text="'作者: '+${book.bookauthor}"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--//gallery-->
+
+<!--subscribe-->
+<!--<div class="subscribe">-->
+<!--    <div class="container">-->
+<!--        <h3>Newsletter</h3>-->
+<!--        <form>-->
+<!--            <input type="text" class="text" value="Email" onFocus="this.value = '';"-->
+<!--                   onBlur="if (this.value == '') {this.value = 'Email';}">-->
+<!--            <input type="submit" value="Subscribe">-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--//subscribe-->
+<!--footer-->
+<div class="footer">
+    <div class="container">
+        <div class="footer-grids">
+            <div class="col-md-2 footer-grid">
+                <h4>company</h4>
+                <ul>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Work Here</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Happenings</a></li>
+                    <li><a href="#">Dealer Locator</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>service</h4>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Warranty</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="admin/login.html" target="_blank">Admin Login</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h4>order & returns</h4>
+                <ul>
+                    <li><a href="#">Order Status</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Digital Gift Card</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>legal</h4>
+                <ul>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="#">Social Responsibility</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--//footer-->
+<div class="footer-bottom">
+    <div class="container">
+        <p>Copyright © 2017 imooc.com All Rights Reserved | 京ICP备 13046642号-2</p>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    // index：索引， len：长度
+    var index = 0, len, hlen;
+    // 类似获取一个元素数组
+    var imgBox = document.getElementsByClassName("img-slide");
+    var hBox = document.getElementsByClassName("h-slide");
+    len = imgBox.length;
+    hlen = hBox.length;
+    imgBox[index].style.display = 'block';
+    hBox[index].style.display = 'block';
+
+    // 逻辑控制函数
+    function slideShow() {
+        // alert("hello")
+        index++;
+        // 防止数组溢出
+        if (index >= len) index = 0;
+        if (index >= hlen) index = 0;
+        // 遍历每一个元素
+        for (var i = 0; i < len; i++) {
+            imgBox[i].style.display = 'none';
+            hBox[i].style.display = 'none';
+        }
+        // 每次只有一张图片显示
+        imgBox[index].style.display = 'block';
+        hBox[index].style.display = 'block';
+    }
+
+    // 定时器，间隔3s切换图片
+    setInterval(slideShow, 5000);
+
+    $(function () {
+
+        $.ajax({
+            "url": "/web/default/getRecommand",
+            "type": "post",
+            "success": function (json) {
+                var location1 = "http://localhost:9000/web/" + json[0].bookicon;
+                var location2 = "http://localhost:9000/web/" + json[1].bookicon;
+                var location3 = "http://localhost:9000/web/" + json[2].bookicon;
+                $("#img1").attr("src", location1);
+                $("#img2").attr("src", location2);
+                $("#img3").attr("src", location3);
+                $("#p1").html(json[0].bookabstract);
+                $("#p2").html(json[1].bookabstract);
+                $("#p3").html(json[2].bookabstract);
+                $("#span1").html("《" + json[0].bookname + "》");
+                $("#span2").html("《" + json[1].bookname + "》");
+                $("#span3").html("《" + json[2].bookname + "》");
+
+            }
+        })
+    })
+
+    function login() {
+        var account = $("#account").val();
+        var password = $("#password").val();
+        alert("hello");
+        $.ajax({
+            "url": "/web/default/verify/",
+            "type": "post",
+            "data": {
+                "readeraccount": account,
+                "readerpassword": password,
+            },
+            "success": function (json) {
+                if (!json) {
+                    $("#message").html("用户或者密码输入不正确");
+                } else {
+                    alert(json);
+                    $("#loginForm").addClass("loginForm");
+                    $("#loginForm").html("<h6>"+"你好"+json["readeraccount"]+"</h6>");
+                }
+            }
+        })
+    }
+
+    // 验证用户名是否正确
+    function verifyUserAccount() {
+        var account = $("#account").val();
+        if (account == "") {
+            $("#account").next("span").addClass("adminAccountRed");
+            $("#account").next("span").text("您输入的账号为空");
+        } else {
+            $.ajax({
+                "url": "/web/default/readerAccount/" + account,
+                "type": "post",
+                "success": function (json) {
+                    if (!json) {
+                        $("#account").next("span").addClass("adminAccountRed");
+                        $("#account").next("span").text("没有此账号");
+                        // alert("hello")
+                    } else {
+                        $("#account").next("span").text(null);
+                    }
+
+                }
+            })
+        }
+    }
+
+</script>
+</html>

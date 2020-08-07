@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bayir 后台管理系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"><!--bootstrap.min.css-->
+    <!--添加分类的-->
+    <link rel="stylesheet" type="text/css" href="../css/theme.css">
+    <link rel="stylesheet" type="text/css" href="../css/admin-forms.css">
+<!--    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->
+<!--    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>-->
+
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="warp">
+    <!-- 页眉 -->
+    <div class="header" onselectstart="return false" style="position: fixed;z-index: 8888">
+            <span class="logo">
+                <a class="logo-go goback" href="index.html">后台管理系统</a>
+                <a class="logo-go goblog" href="">返回主页</a>
+            </span>
+        <span class="logout">
+                <a id="user" class="user">Admin</a>
+                <div id="user-set" class="userSet">
+                    <ul>
+                        <li><a>个人信息</a></li>
+                        <li><a>帐号修改</a></li>
+                    </ul>
+                </div>
+                <a href="">退出</a>
+            </span>
+    </div>
+    <!-- 主体 -->
+    <div class="content">
+        <!-- 左侧边栏 -->
+        <div class="sidebar" style="position: fixed;">
+            <ul>
+                <li></li>
+                <li><a href="/web/default/index">信息总览</a></li>
+                <li><a href="/web/book/bookManage">书本管理</a></li>
+                <li><a href="pages.html">读者管理</a></li>
+                <li><a href="/web/booktype/bookType">分类管理</a></li>
+                <li><a href="setting.html">系统设置</a></li>
+            </ul>
+        </div>
+        <!-- 右侧主要内容区 -->
+        <div class="panel panel-default" style="width: 60%;margin-left: 200px;height: 700px;margin-top: 30px">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="book" style="margin-top: 20px">分类管理</h3>
+            </div>
+            <!--主体区域-->
+            <div class="panel-body" >
+                <div class="admin-form theme-primary mw1000 center-block" style="padding-bottom: 175px;">
+                    <div class="panel heading-border">
+                        <!--表格-->
+                        <form id="form1" action="/web/booktype/add" method="post">
+                            <div class="panel-body bg-light">
+                                <!--选择区域-->
+                                <div class="section row">
+                                    <div style="width: 100%">
+                                        <div class="col-md-3"><b>添加分类名称</b></div>
+                                        <div class="col-md-5"><b>选择所属分类</b></div>
+                                        <div class="col-md-3"><b>添加描述</b></div>
+                                        <div class="col-md-1" style="text-align:right;"><b>删除</b></div>
+                                    </div>
+                                </div>
+                                <!--添加区域-->
+                                <div class="section row" id="batch_items">
+                                    <div style="width: 100%">
+
+
+                                        <!--输入分类名称-->
+                                        <div class="col-md-3">
+                                            <label for="title" class="field prepend-icon">
+                                                <input type="text" name="booktype" id="title" class="gui-input money"
+                                                       placeholder="名称..." required>
+                                                <label for="title" class="field-icon">
+                                                    <i class="fa fa-stack"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+                                        <!--输入所属分类-->
+                                        <div class="col-md-3">
+                                            <label class="field select">
+                                                <select id="language" name="booktypepid">
+                                                    <div>
+                                                        <option th:text="${booktype.booktype}"
+                                                                th:value="${booktype.booktypeid}">
+                                                        </option>
+                                                        <div th:each="cat1 : ${booktype.children}">
+                                                            <option th:text="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+${cat1.booktype}"
+                                                                    th:value="${cat1.booktypeid}">
+                                                            </option>
+                                                            <div th:each="cat2 : ${cat1.children}">
+                                                                <option th:text="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+${cat2.booktype}"
+                                                                        th:value="${cat2.booktypeid}">
+                                                                </option>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </select>
+                                                <i class="arrow double"></i>
+                                            </label>
+                                        </div>
+                                        <!--输入分类描述-->
+                                        <div class="col-md-5">
+                                            <label for="info" class="field prepend-icon">
+                                                <input type="text" name="booktypeinf" id="info" class="gui-input"
+                                                       placeholder="描述...">
+                                                <label for="info" class="field-icon">
+                                                    <i class="fa fa-info"></i>
+                                                </label>
+                                            </label>
+                                        </div>
+
+
+                                        <div class="col-md-1" style="text-align:right;">
+                                            <button type="button" class="button remove_item_button"> X</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer text-right">
+                                    <button type="button" class="button" id="add_item_button"> 添加</button>
+                                    <button type="submit" class="button" onclick="addBookType()"> 保存</button>
+                                    <button type="button" class="button"
+                                            onclick="javascript:window.location.href='/web/booktype/bookType';"> 返回
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+
+    //获取项目跟路径
+    function getRootPath() {
+        var curWwwPath = window.document.location.href;
+        var pathName = window.document.location.pathname;
+        var pos = curWwwPath.indexOf(pathName);
+        var localhostPaht = curWwwPath.substring(0, pos);
+        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        return (localhostPaht + projectName);
+    }
+
+    // 用来获取？后面的参数
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);//search,查询？后面的参数，并匹配正则
+        if (r != null) return decodeURI(r[2]);
+        return null;
+    }
+
+    /*添加分类的*/
+    $("#add_item_button").click(function () {
+        $("#batch_items").children("div").last().after($("#batch_items").children("div").first().clone());
+        $("#batch_items").find("button.remove_item_button").attr("disabled", false);
+        $("#batch_items").children("div").last().find("input").eq(0).attr("value", "");
+        $("#batch_items").children("div").last().find("button.remove_item_button").click(
+            function () {
+                itemRemove(this);
+            }
+        );
+    });
+
+    function itemRemove(ele) {
+        $(ele).parent().parent().remove();
+        if ($("#batch_items").children("div").size() == 1) {
+            $("#batch_items").children("div").find("button.remove_item_button").attr("disabled", true);
+        }
+    }
+
+
+</script>
+</body>
+</html>

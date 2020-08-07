@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <head>
+        <script src="../js/jquery.min.js"></script>
+    </head>
+    <style>
+        .adminAccountRed {
+            color: #BC5656;
+            font-size: 80%;
+        }
+    </style>
+</head>
+<body>
+<div class="login-warp">
+    <div class="login">
+        <div class="login-title">
+            <h1>网站后台管理</h1>
+        </div>
+        <div class="login-form">
+            <form action="">
+                <div>
+                    帐号：<input type="text" name="" id="adminAccount" onblur="verifyAdminAccount()"><span></span><br>
+                </div>
+                <div>
+                    密码：<input type="text" id="adminPassword" onblur="verifyAdminPassword()"><span></span><br>
+                </div>
+                <div>
+                    验证：<input type="text"><br>
+                </div>
+                <button class="login-btn" type="submit" value="登录" >登录</button>
+                <button class="login-btn" type="button" value="注册">注册</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!--    js区域-->
+<script>
+
+
+   // 验证用户名是否正确
+    function verifyAdminAccount() {
+        var adminAccount = $("#adminAccount").val();
+        if (adminAccount == "") {
+            $("#adminAccount").next("span").addClass("adminAccountRed");
+            $("#adminAccount").next("span").text("您输入的账号为空");
+        } else {
+            $.ajax({
+                "url": "/web/admin/adminAccount/"+adminAccount,
+                "type": "post",
+                "success": function (json) {
+                    if ($.isEmptyObject(json)==true){
+                        $("#adminAccount").next("span").addClass("adminAccountRed");
+                        $("#adminAccount").next("span").text("没有此账号");
+                        // alert("hello")
+                    }else {
+                        $("#adminAccount").next("span").text(null);
+                    }
+
+                }
+            })
+        }
+    }
+    <!--    验证密码是否正确-->
+    function verifyAdminPassword() {
+        var adminAccount = $("#adminAccount").val();
+        var adminPassword=$("#adminPassword").val();
+        var data={
+            // "adminid":null,
+            // "adminname":null,
+            "adminaccount":adminAccount,
+            "adminpassword":adminPassword,
+        };
+
+            $.ajax({
+                "url": "/web/admin/adminAccount/password",
+                "type": "post",
+                // "datatype":"json",
+                "data": data,
+                // "contentType" : "text/html",
+                "success": function (json) {
+                    if ($.isEmptyObject(json)==true){
+                        $("#adminPassword").next("span").addClass("adminAccountRed");
+                        $("#adminPassword").next("span").text("密码输入错误");
+                    }else {
+                        $("#adminPassword").next("span").text(null);
+                    }
+                    // alert(json);
+                }
+            })
+
+    }
+</script>
+</body>
+</html>

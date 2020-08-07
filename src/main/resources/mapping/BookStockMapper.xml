@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xss.libraryfinal.mapper.BookStockMapper">
+  <resultMap id="BaseResultMap" type="com.xss.libraryfinal.domain.BookStock">
+    <constructor>
+      <idArg column="bookStockId" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="bookStock" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="bookInStock" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    bookStockId, bookStock, bookInStock
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_bookstock
+    where bookStockId = #{bookstockid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_bookstock
+    where bookStockId = #{bookstockid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xss.libraryfinal.domain.BookStock">
+    insert into t_bookstock (bookStockId, bookStock, bookInStock
+      )
+    values (#{bookstockid,jdbcType=VARCHAR}, #{bookstock,jdbcType=INTEGER}, #{bookinstock,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xss.libraryfinal.domain.BookStock">
+    insert into t_bookstock
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookstockid != null">
+        bookStockId,
+      </if>
+      <if test="bookstock != null">
+        bookStock,
+      </if>
+      <if test="bookinstock != null">
+        bookInStock,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookstockid != null">
+        #{bookstockid,jdbcType=VARCHAR},
+      </if>
+      <if test="bookstock != null">
+        #{bookstock,jdbcType=INTEGER},
+      </if>
+      <if test="bookinstock != null">
+        #{bookinstock,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xss.libraryfinal.domain.BookStock">
+    update t_bookstock
+    <set>
+      <if test="bookstock != null">
+        bookStock = #{bookstock,jdbcType=INTEGER},
+      </if>
+      <if test="bookinstock != null">
+        bookInStock = #{bookinstock,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bookStockId = #{bookstockid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xss.libraryfinal.domain.BookStock">
+    update t_bookstock
+    set bookStock = #{bookstock,jdbcType=INTEGER},
+      bookInStock = #{bookinstock,jdbcType=INTEGER}
+    where bookStockId = #{bookstockid,jdbcType=VARCHAR}
+  </update>
+</mapper>

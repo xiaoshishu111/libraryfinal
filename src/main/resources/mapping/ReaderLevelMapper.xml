@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xss.libraryfinal.mapper.ReaderLevelMapper">
+  <resultMap id="BaseResultMap" type="com.xss.libraryfinal.domain.ReaderLevel">
+    <constructor>
+      <idArg column="readerLevelId" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="maxBoorrowNums" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="maxBorrowDays" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    readerLevelId, maxBoorrowNums, maxBorrowDays
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_readerlevel
+    where readerLevelId = #{readerlevelid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_readerlevel
+    where readerLevelId = #{readerlevelid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xss.libraryfinal.domain.ReaderLevel">
+    insert into t_readerlevel (readerLevelId, maxBoorrowNums, maxBorrowDays
+      )
+    values (#{readerlevelid,jdbcType=VARCHAR}, #{maxboorrownums,jdbcType=INTEGER}, #{maxborrowdays,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xss.libraryfinal.domain.ReaderLevel">
+    insert into t_readerlevel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="readerlevelid != null">
+        readerLevelId,
+      </if>
+      <if test="maxboorrownums != null">
+        maxBoorrowNums,
+      </if>
+      <if test="maxborrowdays != null">
+        maxBorrowDays,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="readerlevelid != null">
+        #{readerlevelid,jdbcType=VARCHAR},
+      </if>
+      <if test="maxboorrownums != null">
+        #{maxboorrownums,jdbcType=INTEGER},
+      </if>
+      <if test="maxborrowdays != null">
+        #{maxborrowdays,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xss.libraryfinal.domain.ReaderLevel">
+    update t_readerlevel
+    <set>
+      <if test="maxboorrownums != null">
+        maxBoorrowNums = #{maxboorrownums,jdbcType=INTEGER},
+      </if>
+      <if test="maxborrowdays != null">
+        maxBorrowDays = #{maxborrowdays,jdbcType=INTEGER},
+      </if>
+    </set>
+    where readerLevelId = #{readerlevelid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xss.libraryfinal.domain.ReaderLevel">
+    update t_readerlevel
+    set maxBoorrowNums = #{maxboorrownums,jdbcType=INTEGER},
+      maxBorrowDays = #{maxborrowdays,jdbcType=INTEGER}
+    where readerLevelId = #{readerlevelid,jdbcType=VARCHAR}
+  </update>
+</mapper>

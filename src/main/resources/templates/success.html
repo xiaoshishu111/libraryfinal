@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bayir 后台管理系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"><!--bootstrap.min.css-->
+    <!--    <link rel="stylesheet" href="../static/css/main.css"> -->
+
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="warp">
+    <!-- 页眉 -->
+    <div class="header" onselectstart="return false">
+            <span class="logo">
+                <a class="logo-go goback" href="index.html">后台管理系统</a>
+                <a class="logo-go goblog" href="">返回主页</a>
+            </span>
+        <span class="logout">
+                <a id="user" class="user">Admin</a>
+                <div id="user-set" class="userSet">
+                    <ul>
+                        <li><a>个人信息</a></li>
+                        <li><a>帐号修改</a></li>
+                    </ul>
+                </div>
+                <a href="">退出</a>
+            </span>
+    </div>
+    <!-- 主体 -->
+    <div class="content">
+        <!-- 左侧边栏 -->
+        <div class="sidebar">
+            <ul>
+                <li></li>
+                <li><a href="index.html">信息总览</a></li>
+                <li><a href="bookManage.html">文章管理</a></li>
+                <li><a href="pages.html">页面管理</a></li>
+                <li><a href="comments.html">评论管理</a></li>
+                <li><a href="setting.html">系统设置</a></li>
+            </ul>
+        </div>
+        <!-- 右侧主要内容区 -->
+        <div class="panel panel-default" style="width: 700px;margin-left: 200px;height: 700px;margin-top: 30px">
+           添加成功
+            <div>
+                <a href="bookManage">返回书单界面</a>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+</html>

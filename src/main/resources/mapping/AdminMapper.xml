@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xss.libraryfinal.mapper.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.xss.libraryfinal.domain.Admin">
+    <constructor>
+      <idArg column="adminId" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="adminName" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="adminAccount" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="adminPassword" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    adminId, adminName, adminAccount, adminPassword
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_admin
+    where adminId = #{adminid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_admin
+    where adminId = #{adminid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xss.libraryfinal.domain.Admin">
+    insert into t_admin (adminId, adminName, adminAccount, 
+      adminPassword)
+    values (#{adminid,jdbcType=VARCHAR}, #{adminname,jdbcType=VARCHAR}, #{adminaccount,jdbcType=VARCHAR}, 
+      #{adminpassword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xss.libraryfinal.domain.Admin">
+    insert into t_admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        adminId,
+      </if>
+      <if test="adminname != null">
+        adminName,
+      </if>
+      <if test="adminaccount != null">
+        adminAccount,
+      </if>
+      <if test="adminpassword != null">
+        adminPassword,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        #{adminid,jdbcType=VARCHAR},
+      </if>
+      <if test="adminname != null">
+        #{adminname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminaccount != null">
+        #{adminaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminpassword != null">
+        #{adminpassword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xss.libraryfinal.domain.Admin">
+    update t_admin
+    <set>
+      <if test="adminname != null">
+        adminName = #{adminname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminaccount != null">
+        adminAccount = #{adminaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminpassword != null">
+        adminPassword = #{adminpassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where adminId = #{adminid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xss.libraryfinal.domain.Admin">
+    update t_admin
+    set adminName = #{adminname,jdbcType=VARCHAR},
+      adminAccount = #{adminaccount,jdbcType=VARCHAR},
+      adminPassword = #{adminpassword,jdbcType=VARCHAR}
+    where adminId = #{adminid,jdbcType=VARCHAR}
+  </update>
+<!--  查找出所有数据-->
+  <select id="findAll" resultType="com.xss.libraryfinal.domain.Admin">
+    select * from t_admin
+  </select>
+<!--  通过账号查找数据-->
+  <select id="findByAccount" resultType="com.xss.libraryfinal.domain.Admin" parameterType="String">
+    select * from t_admin where adminAccount=#{adminaccount}
+  </select>
+<!--  通过对象数据查找数据-->
+  <select id="findByAdmin" parameterType="com.xss.libraryfinal.domain.Admin" resultType="com.xss.libraryfinal.domain.Admin">
+    select * from t_admin where 1=1
+    <if test="adminid !=null">
+        and adminId=#{adminid}
+    </if>
+    <if test="adminname !=null">
+      and adminName=#{adminname}
+    </if>
+    <if test="adminaccount !=null">
+      and adminAccount=#{adminaccount}
+    </if>
+    <if test="adminpassword !=null">
+      and adminPassword=#{adminpassword}
+    </if>
+  </select>
+</mapper>

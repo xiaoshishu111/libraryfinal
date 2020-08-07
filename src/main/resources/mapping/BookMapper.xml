@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xss.libraryfinal.mapper.BookMapper">
+    <resultMap id="BaseResultMap" type="com.xss.libraryfinal.domain.Book">
+        <constructor>
+            <idArg column="bookId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bookName" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bookIcon" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bookAuthor" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bookTypeId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bookPrice" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="bookPublisher" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bookAbstract" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="bookStockId" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="borrowedTimes" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    bookId, bookName, bookIcon, bookAuthor, booktype,bookTypeId, bookPrice, bookPublisher, bookAbstract,
+    bookStockId ,borrowedTimes
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.xss.libraryfinal.domain.Book">
+        select *
+        from t_book
+        where bookId = #{bookid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_book
+    where bookId = #{bookid,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.xss.libraryfinal.domain.Book">
+    insert into t_book (bookId, bookName, bookIcon, 
+      bookAuthor, bookType,bookTypeId, bookPrice,
+      bookPublisher, bookAbstract, bookStockId, borrowedTimes, bookStatus
+      )
+    values (#{bookid,jdbcType=VARCHAR}, #{bookname,jdbcType=VARCHAR}, #{bookicon,jdbcType=VARCHAR}, 
+      #{bookauthor,jdbcType=VARCHAR},#{booktype,jdbcType=VARCHAR}, #{booktypeid,jdbcType=VARCHAR}, #{bookprice,jdbcType=DECIMAL},
+      #{bookpublisher,jdbcType=VARCHAR}, #{bookabstract,jdbcType=VARCHAR}, #{bookstockid,jdbcType=VARCHAR},#{borrowedtimes,jdbcType=VARCHAR},#{bookstatus,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.xss.libraryfinal.domain.Book">
+        insert into t_book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookid != null">
+                bookId,
+            </if>
+            <if test="bookname != null">
+                bookName,
+            </if>
+            <if test="bookicon != null">
+                bookIcon,
+            </if>
+            <if test="bookauthor != null">
+                bookAuthor,
+            </if>
+            <if test="booktypeid != null">
+                bookTypeId,
+            </if>
+            <if test="bookprice != null">
+                bookPrice,
+            </if>
+            <if test="bookpublisher != null">
+                bookPublisher,
+            </if>
+            <if test="bookabstract != null">
+                bookAbstract,
+            </if>
+            <if test="bookstockid != null">
+                bookStockId,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bookid != null">
+                #{bookid,jdbcType=VARCHAR},
+            </if>
+            <if test="bookname != null">
+                #{bookname,jdbcType=VARCHAR},
+            </if>
+            <if test="bookicon != null">
+                #{bookicon,jdbcType=VARCHAR},
+            </if>
+            <if test="bookauthor != null">
+                #{bookauthor,jdbcType=VARCHAR},
+            </if>
+            <if test="booktypeid != null">
+                #{booktypeid,jdbcType=VARCHAR},
+            </if>
+            <if test="bookprice != null">
+                #{bookprice,jdbcType=DECIMAL},
+            </if>
+            <if test="bookpublisher != null">
+                #{bookpublisher,jdbcType=VARCHAR},
+            </if>
+            <if test="bookabstract != null">
+                #{bookabstract,jdbcType=VARCHAR},
+            </if>
+            <if test="bookstockid != null">
+                #{bookstockid,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xss.libraryfinal.domain.Book">
+        update t_book
+        <set>
+            <if test="bookname !='' ">
+                bookName = #{bookname,jdbcType=VARCHAR},
+            </if>
+            <if test="bookicon != ''">
+                bookIcon = #{bookicon,jdbcType=VARCHAR},
+            </if>
+            <if test="bookauthor != ''">
+                bookAuthor = #{bookauthor,jdbcType=VARCHAR},
+            </if>
+            <if test="booktype != ''">
+                bookType = #{booktype,jdbcType=VARCHAR},
+            </if>
+            <if test="bookprice != null">
+                bookPrice = #{bookprice,jdbcType=DECIMAL},
+            </if>
+            <if test="bookpublisher != ''">
+                bookPublisher = #{bookpublisher,jdbcType=VARCHAR},
+            </if>
+            <if test="bookabstract != ''">
+                bookAbstract = #{bookabstract,jdbcType=VARCHAR},
+            </if>
+            bookStatus=#{bookstatus,jdbcType=VARCHAR},
+        </set>
+        where bookId = #{bookid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.xss.libraryfinal.domain.Book">
+    update t_book
+    set bookName = #{bookname,jdbcType=VARCHAR},
+      bookIcon = #{bookicon,jdbcType=VARCHAR},
+      bookAuthor = #{bookauthor,jdbcType=VARCHAR},
+      bookTypeId = #{booktypeid,jdbcType=VARCHAR},
+      bookPrice = #{bookprice,jdbcType=DECIMAL},
+      bookPublisher = #{bookpublisher,jdbcType=VARCHAR},
+      bookAbstract = #{bookabstract,jdbcType=VARCHAR},
+      bookStockId = #{bookstockid,jdbcType=VARCHAR}
+    where bookId = #{bookid,jdbcType=VARCHAR}
+  </update>
+    <!--    根据搜索条件动态查询，返回当页数据-->
+    <select id="pageBean" resultType="com.xss.libraryfinal.domain.Book"
+            parameterType="com.xss.libraryfinal.vo.BookManageView">
+        select * from t_book where 1=1
+
+        <if test="bookname!=''">
+            and bookName like concat('%',#{bookname},'%')
+        </if>
+        <if test="bookauthor!=''">
+            and bookAuthor like concat('%',#{bookauthor},'%')
+        </if>
+        <if test="booktypeid!='8888'">
+            and bookTypeid =#{booktypeid,jdbcType=VARCHAR}
+        </if>
+        <if test="bookpriceMin!=null and bookpriceMax!=null">
+            and bookPrice between #{bookpriceMin} and #{bookpriceMax}
+        </if>
+
+        limit #{pagestart},#{currentCount}
+    </select>
+    <!--    根据搜索条件，返回数据总个数-->
+    <select id="getTotalCount" resultType="Integer" parameterType="com.xss.libraryfinal.vo.BookManageView">
+        select count(*) from t_book where 1=1
+
+        <if test="bookname!=''">
+            and bookName like concat('%',#{bookname},'%')
+        </if>
+        <if test="bookauthor!=''">
+            and bookAuthor like concat('%',#{bookauthor},'%')
+        </if>
+        <if test="booktypeid!='8888'">
+            and bookTypeid =#{booktypeid,jdbcType=VARCHAR}
+        </if>
+        <if test="bookpriceMin!=null and bookpriceMax!=null">
+            and bookPrice between #{bookpriceMin} and #{bookpriceMax}
+        </if>
+
+    </select>
+    <!--查询所有状态为推荐的个数-->
+    <select id="getRecommand" resultType="Integer" parameterType="Integer">
+        select count(*) from t_book where bookStatus=1
+    </select>
+    <!--查询出所有推荐的书本-->
+    <select id="getRecommandBooks" resultType="com.xss.libraryfinal.domain.Book" >
+        select * from t_book where bookStatus=1
+    </select>
+    <!--查处排名前12的书本-->
+    <select id="getList" resultType="com.xss.libraryfinal.domain.Book" parameterType="Integer">
+        select * from t_book order by borrowedTimes desc limit 0,#{rank}
+    </select>
+    <!--查找所有为某个分类的书本-->
+    <select id="getTypeBooks" parameterType="com.xss.libraryfinal.vo.BookView" resultType="com.xss.libraryfinal.domain.Book">
+        select * from t_book where bookTypeId=#{booktypeid} limit #{pagestart},#{currentCount}
+    </select>
+    <!--查找所有为某个分类的书本个数-->
+    <select id="getCountTypeBooks" parameterType="com.xss.libraryfinal.vo.BookView" resultType="Integer">
+        select count(*) from t_book where bookTypeId=#{booktypeid}
+    </select>
+</mapper>

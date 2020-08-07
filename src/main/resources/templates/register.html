@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <!-- Custom Theme files -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        } </script>
+    <!-- //Custom Theme files -->
+    <link href="../css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+    <link href="../css/newstyle.css" type="text/css" rel="stylesheet" media="all">
+    <!-- js -->
+    <script src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap-3.1.1.min.js"></script>
+    <!-- //js -->
+    <!-- cart -->
+    <script src="../js/simpleCart.min.js"></script>
+    <!-- cart -->
+
+    <style>
+        .container1 {
+            margin-top: 70px;
+            width: 45%;
+            margin-left: 30%;
+        }
+
+        /* 需要在一行的元素 */
+        .inline-style {
+            display: inline-block;
+        }
+
+        /* 文字需要靠右 */
+        .font-position-right {
+            text-align: right;
+        }
+
+        /* 注册按钮 */
+        .register-btn {
+            margin-left: 10%;
+        }
+
+         .readerAccountRed {
+             color: #BC5656;
+             font-size: 80%;
+         }
+
+    </style>
+</head>
+<body>
+<!--header-->
+<div class="header">
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h1 class="navbar-brand"><a href="index.do">IMOOC</a></h1>
+            </div>
+            <!--navbar-header-->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/web/default/userindex" class="active">首页</a></li>
+                    <!--多级分类区域-->
+
+                    <li class="dropdown" th:each="cat1 : ${booktype.children}">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" th:text="${cat1.booktype}"><b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu multi-column columns-4">
+                            <div class="row">
+
+                                <div class="col-sm-3" th:each="cat2 : ${cat1.children}">
+                                    <h4 th:text="${cat2.booktype}"></h4>
+                                    <ul class="multi-column-dropdown">
+                                        <li class="dropdown" th:each="cat3 : ${cat2.children}">
+                                            <a th:text="${cat3.booktype}"
+                                               th:href="'/web/default/list?booktypeid='+${cat3.booktypeid}+'&page=1'"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <div class="header-info">
+            <div class="header-right search-box">
+                <a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+                <div class="search">
+                    <form class="navbar-form">
+                        <input type="text" class="form-control">
+                        <button type="submit" class="btn btn-default" aria-label="Left Align">
+                            搜
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="header-right login">
+                <a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+                <div id="loginBox">
+                    <form id="loginForm">
+                        <fieldset id="body">
+                            <fieldset>
+                                <label for="email">Email</label>
+                                <input type="text" name="email" id="email">
+                            </fieldset>
+                            <fieldset>
+                                <label for="password">Password</label>
+                                <input type="password" name="password" id="password">
+                            </fieldset>
+                            <input type="submit" id="login" value="登录">
+                            <label for="checkbox"><input type="checkbox" id="checkbox"> <i>记住</i></label>
+                        </fieldset>
+                        <p>新用户 ? <a class="sign" href="#">注册</a><span><a href="#">忘记密码?</a></span></p>
+                    </form>
+                </div>
+            </div>
+            <div class="header-right cart">
+                <a href="#"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+                <div class="cart-box">
+                    <h4><a href="#">
+                        <span class="simpleCart_total"> $0.00 </span> (<span id="simpleCart_quantity"
+                                                                             class="simpleCart_quantity"> 0 </span>)
+                    </a></h4>
+                    <p><a href="#" class="simpleCart_empty">空</a></p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--//header-->
+<!--gallery-->
+<div class="gallery">
+    <div class="container">
+
+        <!--主体注册区域-->
+        <div class="container1" >
+            <form class="form-horizontal" action="/web/default/registerdo" enctype="multipart/form-data" method="post">
+                <div class="form-group">
+                    <label for="exampleInputUsername1" class="col-sm-2 control-label inline-style font-position-right">用户头像</label>
+                    <div class="col-sm-9 inline-style ">
+                        <!--用户名头像-->
+                        <div><input type="file"  class="form-control" name="file" ></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputUsername1" class="col-sm-2 control-label inline-style font-position-right">用户名</label>
+                    <div class="col-sm-9 inline-style ">
+                        <!--用户名区域-->
+                        <input type="text" name="readeraccount" class="form-control" id="readeraccount" placeholder="用户名" onblur="verifyReaderAccount()">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputUsername1" class="col-sm-2 control-label  inline-style font-position-right" >密码</label>
+                    <div class="col-sm-9  inline-style">
+                        <!--密码区域-->
+                        <input name="readerpassword" th:id="readerpassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="密码" onblur="verifyReaderPassword()">
+                    </div>
+                </div>
+                <div th:if="${result}!=null">用户名或者密码错误</div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <!--<input type="checkbox">
+                                记住密码-->
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-right: 100px">
+                    <div class="col-sm-offset-2 col-sm-10" >
+                        <button class="btn btn-lg btn-primary btn-block register-btn" type="submit">注册</button>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<!--//gallery-->
+
+<!--//subscribe-->
+<!--footer-->
+<div class="footer">
+    <div class="container">
+        <div class="footer-grids">
+            <div class="col-md-2 footer-grid">
+                <h4>company</h4>
+                <ul>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Work Here</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Happenings</a></li>
+                    <li><a href="#">Dealer Locator</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>service</h4>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Warranty</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="admin/login.html" target="_blank">Admin Login</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 footer-grid">
+                <h4>order & returns</h4>
+                <ul>
+                    <li><a href="#">Order Status</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Digital Gift Card</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 footer-grid">
+                <h4>legal</h4>
+                <ul>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms and Conditions</a></li>
+                    <li><a href="#">Social Responsibility</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!--//footer-->
+<div class="footer-bottom">
+    <div class="container">
+        <p>Copyright © 2017 imooc.com All Rights Reserved | 京ICP备 13046642号-2</p>
+    </div>
+</div>
+<script>
+
+    // 验证用户名是否正确
+    function verifyReaderAccount() {
+        var readeraccount = $("#readeraccount").val();
+        if (readeraccount == "") {
+            $("#readeraccount").next("span").addClass("readerAccountRed");
+            $("#readeraccount").next("span").text("您输入的账号为空");
+        } else {
+            $.ajax({
+                "url": "/web/default/readerAccount/"+readeraccount,
+                "type": "post",
+                "success": function (json) {
+                    if (!json){
+                        $("#readeraccount").next("span").text(null);
+                    }else {
+                       console.log(json);
+                        $("#readeraccount").next("span").addClass("readerAccountRed");
+                        $("#readeraccount").next("span").text("此账号已经被注册");
+                    }
+
+                }
+            })
+        }
+    }
+
+
+
+</script>
+</body>
+</html>
